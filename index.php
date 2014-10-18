@@ -8,7 +8,7 @@ $app = new \Slim\Slim();
 $app->config(array(
  'debug' => 'true',
  'templates.path' => 'views',
- 'view' => new \Slim\Views\Twig(),
+ 'view' => new \Slim\Views\Twig()
 	));
 
 $app->get('/', function() use($app){

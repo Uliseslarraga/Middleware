@@ -1,11 +1,11 @@
 {
-    "require": {
-		"slim/slim": "2.*",
-		"slim/extras": "*",
-		"twig/twig": "*",
-		"illuminate/database": "*"
-    },
-	"autoload": {
-		"psr-0": {"DefDev": "app/"}
-    }
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.4.0",
+    "slim/slim": "2.*",
+    "slim/views": "0.1.*",
+    "twig/twig": "1.*",
+    "illuminate/database": "*",
+    "illuminate/validation": "*"
+  }
 }
