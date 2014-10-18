@@ -1,0 +1,11 @@
+{
+    "require": {
+		"slim/slim": "2.*",
+		"slim/extras": "*",
+		"twig/twig": "*",
+		"illuminate/database": "*"
+    },
+	"autoload": {
+		"psr-0": {"DefDev": "app/"}
+    }
+}
