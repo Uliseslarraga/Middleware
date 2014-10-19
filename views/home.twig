@@ -2,12 +2,10 @@
 {% block title %}
    	Tasks
 {% endblock %}
-{% block lateral %}
-    lateral
-{% endblock %}
 {% block contenido %}
-    	<form action="">
+    	<form action="{{ urlFor('root') }}register-task">
 			<label for="task">Tarea</label>
 			<input type="text" id="task" name="task">
+			<button type="submit">Guardar</button>
 		</form>
 {% endblock %}
