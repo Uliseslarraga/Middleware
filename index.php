@@ -59,8 +59,8 @@ $app->post('/register-task', function() use($app){
 
 $app->put('/update-task/:id', function($id) use($app){
 	echo "update";
-	/*$put = (object) $app->request->put();
-	$task = Tasks::where('id',$put->id)->find();
+	//echo $put = $app->request;
+	/*$task = Tasks::where('id',$put->id)->find();
 	echo "<pre>";
 	print_r($task);
 	echo "</pre>";*/
