@@ -1,5 +1,6 @@
 <?php
 require 'vendor/autoload.php';
+include_once 'views/models/Tasks.php';
 //require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
@@ -21,6 +22,8 @@ $capsule->bootEloquent();
 $capsule->setAsGlobal();
 $app->db = $capsule->connection();
 
+//******Configuracion
+
 $app->config(array(
  'debug' => 'true',
  'templates.path' => 'views',
@@ -33,17 +36,34 @@ $app->view->parserExtensions = array(
     new Twig_Extension_Debug()
 );
 
+	//***********//
+
 $app->get('/', function() use($app){
-	$app->render('home.twig');
+	$data=array();
+	$data['tareas']= Tasks::all();
+	/*echo "<pre>";
+	print_r($data['tareas']);
+	echo "</pre>";*/
+	$app->render('home.twig',$data);
 })->name('root');
 
 $app->post('/register-task', function() use($app){
 	$post = (object) $app->request->post();
 	$task = new Tasks();
-	$task->task=$post->$task;
+	$task->nombre = $post->nombre;
+	$task->descripcion = $post->descripcion;
+	$task->fecha = $post->fecha;
 	$task->save();
-	$app->flash('error','Usuario registrado con éxito!');
-	$app->flashKeep();
+	$app->redirect($app->urlFor('root'));
+});
+
+$app->put('/update-task/:id', function($id) use($app){
+	echo "update";
+	/*$put = (object) $app->request->put();
+	$task = Tasks::where('id',$put->id)->find();
+	echo "<pre>";
+	print_r($task);
+	echo "</pre>";*/
 });
 
 $app->run();

@@ -3,9 +3,22 @@
    	Tasks
 {% endblock %}
 {% block contenido %}
-    	<form action="{{ urlFor('root') }}register-task">
-			<label for="task">Tarea</label>
-			<input type="text" id="task" name="task">
+    	<form action="{{ urlFor('root') }}register-task" method="POST" role="form">
+			<label for="nombre">Nombre</label>
+			<input type="text" id="nombre" name="nombre">
+			<label for="descripcion">Descripcion</label>
+			<input type="text" id="descripcion" name="descripcion">
+			<label for="fecha">Fecha</label>
+			<input type="date" id="fecha" name="fecha">
 			<button type="submit">Guardar</button>
 		</form>
+
+		<div class="row">
+			<div class="col-md-12">
+					
+				{% for tarea in tareas %}
+				    <div class="row">{{ tarea.id }}.-{{ tarea.nombre }} {{tarea.descripcion}} {{tarea.fecha}} <a href="{{ urlFor('root') }}update-task/{{ tarea.id }}">Editar</a></div>
+				{% endfor %}
+			</div>
+		</div>
 {% endblock %}
