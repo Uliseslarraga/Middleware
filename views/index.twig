@@ -1,0 +1,148 @@
+{% extends 'base.twig' %}
+{% block css %}
+    <link rel="stylesheet" href="{{ urlFor('root') }}public/css/lista.css">
+{% endblock %}
+{% block contenido %}
+	<!-- Tab panes -->
+	<div id="mensajes"></div>
+	<div class="tab-content">
+	  <div class="tab-pane active" id="tareas">
+	  	<div class="container">
+				<div class="row">
+					<div class="[ col-xs-10 col-md-10 col-sm-10 ]">
+						<ul class="event-list">
+							{% for task in tasks %}
+								<li>
+									<time datetime="{{ task.fecha }}">
+										<span class="day">{{ task.fecha|date("d") }}</span>
+										<span class="month">{{ task.fecha|date("M") }}</span>
+										<span class="year">{{ task.fecha|date("Y") }}</span>
+										<span class="time">ALL DAY</span>
+									</time>
+									<img alt="Independence Day" src="http://imgs.notitarde.com/Imgs/2013/10/8d203e7b-7ce7-44e4-8774-51d611547636_W_00960.jpg" />
+									<div class="info">
+										<h2 class="title">{{ task.nombre }}</h2>
+										<p class="desc">{{ task.descripcion }}</p>
+										<ul>
+												<li style="width:33%;"><form role="form" id="formac"><input type="hidden" id="id" name="id" value="{{ task.id }}"><button type="submit">Actualizar <span class="fa fa-edit"></button></span></li>
+												<li style="width:34%;"><form role="form" id="formel"><input type="hidden" id="id" name="id" value="{{ task.id }}"><button type="submit" id="borrado">Eliminar <span class="fa fa-times"></span></span></li>
+											</form>
+										</ul>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+	  </div>
+	  <div class="tab-pane" id="nueva">
+	  	<div class="container">
+				<div class="row">
+		      <div class="col-md-10">
+		        <div class="well well-sm">
+		          <form class="form-horizontal" action="{{ urlFor('save') }}" method="POST" role="form">
+		          <fieldset>
+		            <legend class="text-center">Nueva Tarea</legend>
+		            <div class="form-group">
+		              <label class="col-md-3 control-label" for="nombre">Nombre</label>
+		              <div class="col-md-9">
+		                <input id="nombre" name="nombre" type="text" placeholder="Titulo de tarea" class="form-control">
+		              </div>
+		            </div>
+		            <div class="form-group">
+		              <label class="col-md-3 control-label" for="descripcion">Descripción</label>
+		              <div class="col-md-9">
+		                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Escribe la descripción de la tarea" rows="5"></textarea>
+		              </div>
+		            </div>
+		            <div class="form-group">
+		              <label class="col-md-3 control-label" for="fecha">Fecha</label>
+		              <div class="col-md-9">
+		                <input id="fecha" name="fecha" type="text" placeholder="2014 - 01 - 01" class="form-control">
+		              </div>
+		            </div>
+		            <div class="form-group">
+		              <div class="col-md-12 text-right">
+		                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+		              </div>
+		            </div>
+		          </fieldset>
+		          </form>
+		        </div>
+		      </div>
+				</div>
+			</div>
+	  </div>
+	  <div class="tab-pane" id="modificar">
+	  	<div class="container">
+				<div class="row">
+		      <div class="col-md-10">
+		        <div class="well well-sm">
+		          <form class="form-horizontal" action="#" method="POST" role="form">
+		          <input type="hidden" name="METHOD_HTTP_X" value="PUT">
+		          <fieldset>
+		            <legend class="text-center">Actualizar Tarea</legend>
+		            <input type="hidden">
+		            <div class="form-group">
+		              <label class="col-md-3 control-label" for="nombre">Nombre</label>
+		              <div class="col-md-9">
+		                <input id="nombre" name="nombre" type="text" placeholder="Titulo de tarea" class="form-control">
+		              </div>
+		            </div>
+		            <div class="form-group">
+		              <label class="col-md-3 control-label" for="descripcion">Descripción</label>
+		              <div class="col-md-9">
+		                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Escribe la descripción de la tarea" rows="5"></textarea>
+		              </div>
+		            </div>
+		            <div class="form-group">
+		              <label class="col-md-3 control-label" for="fecha">Fecha</label>
+		              <div class="col-md-9">
+		                <input id="fecha" name="fecha" type="text" placeholder="2014 - 01 - 01" class="form-control">
+		              </div>
+		            </div>
+		            <div class="form-group">
+		              <div class="col-md-12 text-right">
+		                <button type="submit" class="btn btn-primary btn-lg">Actualizar</button>
+		              </div>
+		            </div>
+		          </fieldset>
+		          </form>
+		        </div>
+		      </div>
+				</div>
+			</div>
+	  </div>
+	</div>
+{% endblock %}
+{% block js %}
+    <script>
+    $(document).ready(function() {
+      $("#borrado").click(function() {
+        if ($("#id").val()!="")
+          $.ajax({
+            type: 'DELETE',
+            url: 'tareas/'+$("#id").val(),
+            cache: false,
+            dataType: "json",
+            success: function(resultados,textStatus,jqXHR) {
+            	mensajes(resultados.estado,resultados.mensaje);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              alert(textStatus);
+           }
+        });
+      });
+
+      function mensajes(estado, mensaje) {
+        if (estado)
+          $("#mensajes").hide().html('<span class="label label-success">' +
+            mensaje + '</span>').fadeIn(500).delay(1000).fadeOut(1500);
+        else
+          $("#mensajes").hide().html('<span class="label label-danger">' +
+           mensaje + '</span>').fadeIn(500).delay(1000).fadeOut(1500);
+                }
+    });
+    </script>
+{% endblock %}

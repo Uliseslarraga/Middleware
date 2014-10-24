@@ -3,38 +3,27 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Task</title>
+	<title>Tareas</title>
 	<link rel="stylesheet" href="{{ urlFor('root') }}public/css/bootstrap.css">
+	{% block css %}{% endblock %}
 </head>
 <body class="container">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="col-md-3 col-md-offset-2">
-				<h1>{% block title %}{% endblock %}</h1>
-			</div>	
+		<div class="col-md-12 text-center">
+			<h1>Lista de tareas</h1>
 		</div>
 	</div>
+	<hr>
 	<div class="row">
 		<div class="col-md-2">
-			<ul class="nav nav-pills nav-stacked" role="tablist" id="myTab">
-				<li class="active"><a href="#" role="tab" data-toggle="tab">Home</a></li>
-				<li><a href="#" role="tab" data-toggle="tab">Profile</a></li>
-				<li><a href="#" role="tab" data-toggle="tab">Messages</a></li>
-			</ul>
+			{% include 'sidebar.twig' %}
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-10 text-center">
 			{% block contenido %}{% endblock %}
 		</div>
 	</div>
-	<script src="{{urlFor('root')}}/public/js/jquery.js"></script>
-	<script src="{{urlFor('root')}}/public/js/bootstrap.js"></script>
-		<script>
-  			$(document).ready(function(){ 
-    			$("#myTab a").click(function(e){
-    			e.preventDefault();
-    				$(this).tab('show');
-    			});
-			});
-		</script>
+	<script src="{{urlFor('root')}}public/js/jquery.js"></script>
+	<script src="{{urlFor('root')}}public/js/bootstrap.js"></script>
+	{% block js %}{% endblock %}
 </body>
 </html>
